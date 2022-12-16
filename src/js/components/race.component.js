@@ -66,14 +66,13 @@ export class RaceComponent extends Component {
     }
 
     #renderRace(cars) {
-        const promises = [];
-        for (const car of cars) {
+        const promises = cars.map(car => {
             const $container = parseStringToHTML($car.container);
             appendElement($container, this.#renderPlayer(car.player));
             appendElement($race.container, $container);
 
-            promises.push(this.#renderRaces($container, car.races));
-        }
+            return this.#renderRaces($container, car.races);
+        })
 
         return Promise.all(promises);
     }
